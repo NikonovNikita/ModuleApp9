@@ -2,27 +2,25 @@
 
 class Program
 {
+    private static void EventHandler1()
+    {
+        Console.WriteLine("Запущен первый обработчик события");
+    }
+    
+    private static void EventHandler2()
+    {
+        Console.WriteLine("Запущен второй обработчик события");
+    }
+    
     static void Main(string[] args)
     {
-        Events events = new Events();
-        events.NumberEnteredEvent += ShowNumber;
-        try
-        {
-            events.Read();
-        }
-        catch (FormatException)
-        {
-            Console.WriteLine("Введено некорректное значение!");
-            
-        }
-    }
+        Event instance = new Event();
 
-    static void ShowNumber(int number)
-    {
-        switch (number)
-        {
-            case 1: Console.WriteLine("Введено значение 1"); break;
-            case 2: Console.WriteLine("Введено значение 2"); break;
-        }
+        // Подписка на событие //
+
+        instance.MyEvent += new EventDelegate(EventHandler1);
+        instance.MyEvent += EventHandler2;
+
+        instance.InvokeEvent();
     }
 }
