@@ -1,50 +1,28 @@
-﻿namespace DelegateUsingExample
+﻿using ModuleApp9;
+
+class Program
 {
-    class Program
+    static void Main(string[] args)
     {
-        delegate bool EligibleToPromotion(Employee employeeToPromotion);
-        static void Main(string[] args)
+        Events events = new Events();
+        events.NumberEnteredEvent += ShowNumber;
+        try
         {
-            Employee employee1 = new Employee()
-            {
-                Name = "Виктор",
-                Salary = 10000
-            };
-            Employee employee2 = new Employee()
-            {
-                Name = "Наруто",
-                Salary = 15000
-            };
-            Employee employee3 = new Employee()
-            {
-                Name = "Саске",
-                Salary = 20000
-            };
-            List<Employee> employees = new List<Employee>()
-            {
-                employee1,
-                employee2,
-                employee3
-            };
-            EligibleToPromotion eligible = PromoteTrueOrFalse;
-            PromoteEmployee(employees, eligible);
+            events.Read();
+        }
+        catch (FormatException)
+        {
+            Console.WriteLine("Введено некорректное значение!");
+            
+        }
+    }
 
-        }
-        static void PromoteEmployee(List<Employee> employeesList, EligibleToPromotion isEligibleToPromotion)
+    static void ShowNumber(int number)
+    {
+        switch (number)
         {
-            foreach(Employee employee in employeesList)
-            {
-                if (isEligibleToPromotion(employee))
-                {
-                    Console.WriteLine($"Сотрудник {employee.Name} повышен в квалификации");
-                }
-            }
+            case 1: Console.WriteLine("Введено значение 1"); break;
+            case 2: Console.WriteLine("Введено значение 2"); break;
         }
-        static bool PromoteTrueOrFalse(Employee employee)
-        {
-            if (employee.Salary > 10000)
-                return true; else return false;
-        }
-
     }
 }
