@@ -2,25 +2,34 @@
 
 class Program
 {
-    private static void EventHandler1()
+    static private void buttonW_Click()
     {
-        Console.WriteLine("Запущен первый обработчик события");
+        Console.WriteLine(" Вперед");
     }
-    
-    private static void EventHandler2()
+    static private void buttonS_Click()
     {
-        Console.WriteLine("Запущен второй обработчик события");
+        Console.WriteLine(" Назад");
     }
-    
     static void Main(string[] args)
     {
-        Event instance = new Event();
+        KeyboardMaster keyboardMaster = new KeyboardMaster();
 
-        // Подписка на событие //
+        keyboardMaster.wKeyPressedEvent += buttonW_Click;
+        keyboardMaster.sKeyPressedEvent += buttonS_Click;
 
-        instance.MyEvent += new EventDelegate(EventHandler1);
-        instance.MyEvent += EventHandler2;
+        ConsoleKey userInput;
+        
+        while (true)
+        {
+            userInput = Console.ReadKey().Key;
 
-        instance.InvokeEvent();
+            switch(userInput)
+            {
+                case ConsoleKey.W:
+                    keyboardMaster.WKeyPressedMethod(); break;
+                case ConsoleKey.S:
+                    keyboardMaster.SKeyPressedMethod(); break;
+            }
+        }
     }
 }
