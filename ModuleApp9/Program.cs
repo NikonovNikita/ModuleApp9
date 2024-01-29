@@ -1,35 +1,45 @@
-﻿using ModuleApp9;
-
+﻿using System.Data;
+using Task1;
 class Program
 {
-    static private void buttonW_Click()
-    {
-        Console.WriteLine(" Вперед");
-    }
-    static private void buttonS_Click()
-    {
-        Console.WriteLine(" Назад");
-    }
     static void Main(string[] args)
     {
-        KeyboardMaster keyboardMaster = new KeyboardMaster();
-
-        keyboardMaster.wKeyPressedEvent += buttonW_Click;
-        keyboardMaster.sKeyPressedEvent += buttonS_Click;
-
-        ConsoleKey userInput;
-        
-        while (true)
+        Exception[] exceptions =
         {
-            userInput = Console.ReadKey().Key;
+            new MyException("Произошло непредвиденное исключение"),
+            new ArgumentException(),
+            new ArgumentNullException(),
+            new ArgumentOutOfRangeException(),
+            new TimeoutException()
+        };
 
-            switch(userInput)
+        foreach (var exception in exceptions)
+        {
+            try
             {
-                case ConsoleKey.W:
-                    keyboardMaster.WKeyPressedMethod(); break;
-                case ConsoleKey.S:
-                    keyboardMaster.SKeyPressedMethod(); break;
+                throw exception;
+            }
+            catch (Exception ex) when (ex is MyException)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            catch (Exception ex) when (ex is ArgumentException)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            catch (Exception ex) when (ex is ArgumentNullException)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            catch (Exception ex) when (ex is ArgumentOutOfRangeException)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            catch (Exception ex) when (ex is TimeoutException)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
+        
     }
 }
